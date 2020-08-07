@@ -1,14 +1,29 @@
 package com.algaworks.ecommerce.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.algaworks.ecommerce.listener.GenericoListener;
+import com.algaworks.ecommerce.listener.GerarNotaFiscalListener;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
+@Getter
+@Setter
+@EntityListeners({ GenericoListener.class})
 @Entity
-public class Produto {
+@Table(name = "produto")
+public class Produto extends EntidadeBaseInteger{
 
-    @Id
-    private Integer id;
+
+    @Column(name = "data_criacao", updatable = false)
+    private LocalDateTime dataCriacao;
+
+    @Column(name = "data_ultima_atualizacao", insertable = false)
+    private LocalDateTime dataUltimaAtualizacao;
 
     private String nome;
 
@@ -16,50 +31,27 @@ public class Produto {
 
     private BigDecimal preco;
 
-    public Integer getId() {
-        return id;
-    }
+    @ManyToMany
+    @JoinTable(name = "produto_categoria",
+            joinColumns = @JoinColumn(name = "produto_id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+    private List<Categoria> categorias;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @OneToOne(mappedBy = "produto")
+    private Estoque estoque;
 
-    public String getNome() {
-        return nome;
-    }
+    @ElementCollection
+    @CollectionTable(name = "produto_tag",
+            joinColumns = @JoinColumn(name = "produto_id"))
+    @Column(name = "tag")
+    private List<String> tags;
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    @ElementCollection
+    @CollectionTable(name = "produto_atributo",
+            joinColumns = @JoinColumn(name = "produto_id"))
+    private List<Atributo> atributos;
 
-    public String getDescricao() {
-        return descricao;
-    }
+    @Lob
+    private byte[] foto;
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public BigDecimal getPreco() {
-        return preco;
-    }
-
-    public void setPreco(BigDecimal preco) {
-        this.preco = preco;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Produto produto = (Produto) o;
-
-        return id.equals(produto.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
 }
