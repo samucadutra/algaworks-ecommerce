@@ -9,8 +9,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@DiscriminatorValue("boleto")
-//@Table(name = "pagamento_boleto") Ignorado por causa da herança com a classe Pagamento
+//@DiscriminatorValue("boleto")
+@Table(name = "pagamento_boleto")
 public class PagamentoBoleto extends Pagamento{
 
 
