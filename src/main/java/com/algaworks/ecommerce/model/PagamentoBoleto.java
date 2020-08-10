@@ -9,8 +9,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-//@DiscriminatorValue("boleto")
-@Table(name = "pagamento_boleto")
+@DiscriminatorValue("boleto")
+//@Table(name = "pagamento_boleto") // Ignorado no caso de estratégia SINGLE_TABLE
 public class PagamentoBoleto extends Pagamento{
 
 
