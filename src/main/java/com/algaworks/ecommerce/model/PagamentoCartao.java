@@ -13,7 +13,7 @@ import javax.persistence.*;
 //@Table(name = "pagamento_cartao") // Ignorado no caso de estratégia SINGLE_TABLE
 public class PagamentoCartao extends Pagamento{
 
-    @Column(name = "numero_cartao")
+    @Column(name = "numero_cartao", length = 50)
     private String numeroCartao;
 
 }

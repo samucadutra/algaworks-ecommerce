@@ -36,14 +36,14 @@ public class SalvandoArquivosTest extends EntityManagerTest {
         Assert.assertTrue(notaFiscalVerificacao.getXml().length > 0);
 
 
-        try {
-            OutputStream out = new FileOutputStream(
-                    Files.createFile(Paths.get(
-                            System.getProperty("user.home") + "/xml-teste.xml")).toFile());
-            out.write(notaFiscalVerificacao.getXml());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            OutputStream out = new FileOutputStream(
+//                    Files.createFile(Paths.get(
+//                            System.getProperty("user.home") + "/xml-teste.xml")).toFile());
+//            out.write(notaFiscalVerificacao.getXml());
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 
@@ -73,14 +73,14 @@ public class SalvandoArquivosTest extends EntityManagerTest {
         Assert.assertTrue(produtoVerificacao.getFoto().length > 0);
 
 
-        try {
-            OutputStream out = new FileOutputStream(
-                    Files.createFile(Paths.get(
-                            System.getProperty("user.home") + "/foto-produto-teste.jpg")).toFile());
-            out.write(produtoVerificacao.getFoto());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            OutputStream out = new FileOutputStream(
+//                    Files.createFile(Paths.get(
+//                            System.getProperty("user.home") + "/foto-produto-teste.jpg")).toFile());
+//            out.write(produtoVerificacao.getFoto());
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 

@@ -22,10 +22,11 @@ public class Pedido extends EntidadeBaseInteger{
 
 
     @ManyToOne(optional = false) // optional false - se o cliente for obrigatório na hora de salvar isso vai falar pro hibernate usar um inner join ao invés de um left join e a vantagem é que inner join é mais performático que o left join
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_pedido_cliente"))
     private Cliente cliente;
 
-    @Column(name = "data_criacao", updatable = false)
+    @Column(name = "data_criacao", updatable = false, nullable = false)
     private LocalDateTime dataCriacao;
 
     @Column(name = "data_ultima_atualizacao", insertable = false)
@@ -37,9 +38,11 @@ public class Pedido extends EntidadeBaseInteger{
     @OneToOne(mappedBy = "pedido")
     private NotaFiscal notaFiscal;
 
+    @Column(nullable = false)
     private BigDecimal total;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 30, nullable = false)
     private StatusPedido status;
 
     @Embedded

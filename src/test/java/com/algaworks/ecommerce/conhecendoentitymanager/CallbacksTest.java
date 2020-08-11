@@ -8,6 +8,9 @@ import com.algaworks.ecommerce.model.StatusPedido;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 public class CallbacksTest extends EntityManagerTest {
 
     @Test
@@ -15,6 +18,10 @@ public class CallbacksTest extends EntityManagerTest {
         Cliente cliente = entityManager.find(Cliente.class,1);
 
         Pedido pedido = new Pedido();
+
+        //
+        pedido.setDataCriacao(LocalDateTime.now());
+        pedido.setTotal(BigDecimal.TEN);
 
         pedido.setCliente(cliente);
         pedido.setStatus(StatusPedido.AGUARDANDO);
