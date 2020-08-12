@@ -37,7 +37,7 @@ public class Produto extends EntidadeBaseInteger{
 //    @Column(precision = 10, scale = 2) // preco decimal(10,2)
     private BigDecimal preco;
 
-    @ManyToMany
+    @ManyToMany //(cascade = CascadeType.PERSIST)
     @JoinTable(name = "produto_categoria",
             joinColumns = @JoinColumn(name = "produto_id", nullable = false,
                     foreignKey = @ForeignKey(name = "fk_produto_categoria_produto")),

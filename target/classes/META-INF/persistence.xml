@@ -26,11 +26,12 @@
             <property name="javax.persistence.sql-load-script-source" value="META-INF/banco-de-dados/dados-iniciais.sql"/>
 
             <property name="javax.persistence.schema-generation.scripts.action"
-                      value="drop-and-create"/>
+                      value="none"/>
             <property name="javax.persistence.schema-generation.scripts.create-target"
                       value="C:/Temp/sql/script-criacao-exportado.sql"/>
             <property name="javax.persistence.schema-generation.scripts.drop-target"
                       value="C:/Temp/sql/script-remocao-exportado.sql"/>
+
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
 

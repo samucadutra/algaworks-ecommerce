@@ -21,7 +21,7 @@ public class Pedido extends EntidadeBaseInteger{
 
 
 
-    @ManyToOne(optional = false) // optional false - se o cliente for obrigatório na hora de salvar isso vai falar pro hibernate usar um inner join ao invés de um left join e a vantagem é que inner join é mais performático que o left join
+    @ManyToOne(optional = false) //, cascade = CascadeType.PERSIST) // optional false - se o cliente for obrigatório na hora de salvar isso vai falar pro hibernate usar um inner join ao invés de um left join e a vantagem é que inner join é mais performático que o left join
     @JoinColumn(name = "cliente_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_pedido_cliente"))
     private Cliente cliente;
@@ -48,8 +48,8 @@ public class Pedido extends EntidadeBaseInteger{
     @Embedded
     private EnderecoEntregaPedido enderecoEntrega;
 
-    @OneToMany(mappedBy = "pedido")
-    private List<ItemPedido> itensPedido;
+    @OneToMany(mappedBy = "pedido") //, cascade = CascadeType.PERSIST)
+    private List<ItemPedido> itens;
 
     @OneToOne(mappedBy = "pedido")
     private Pagamento pagamento;
@@ -61,8 +61,8 @@ public class Pedido extends EntidadeBaseInteger{
     //    @PrePersist
 //    @PreUpdate
     public void calcularTotal() {
-        if (itensPedido != null) {
-            total = itensPedido.stream().map(ItemPedido::getPrecoProduto)
+        if (itens != null) {
+            total = itens.stream().map(ItemPedido::getPrecoProduto)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
         }
     }

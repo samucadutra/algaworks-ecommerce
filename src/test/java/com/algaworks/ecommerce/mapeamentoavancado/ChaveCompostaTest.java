@@ -45,7 +45,7 @@ public class ChaveCompostaTest extends EntityManagerTest {
 
         Pedido pedidoVerificacao = entityManager.find(Pedido.class, pedido.getId());
         Assert.assertNotNull(pedidoVerificacao);
-        Assert.assertFalse(pedidoVerificacao.getItensPedido().isEmpty());
+        Assert.assertFalse(pedidoVerificacao.getItens().isEmpty());
     }
 
     @Test
