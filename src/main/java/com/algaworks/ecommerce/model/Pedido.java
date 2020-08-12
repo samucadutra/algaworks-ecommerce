@@ -48,7 +48,7 @@ public class Pedido extends EntidadeBaseInteger{
     @Embedded
     private EnderecoEntregaPedido enderecoEntrega;
 
-    @OneToMany(mappedBy = "pedido") //, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "pedido")//, cascade = CascadeType.PERSIST, orphanRemoval = true)//, cascade = CascadeType.REMOVE)//, cascade = CascadeType.MERGE) //, cascade = CascadeType.PERSIST)
     private List<ItemPedido> itens;
 
     @OneToOne(mappedBy = "pedido")
@@ -62,8 +62,11 @@ public class Pedido extends EntidadeBaseInteger{
 //    @PreUpdate
     public void calcularTotal() {
         if (itens != null) {
-            total = itens.stream().map(ItemPedido::getPrecoProduto)
+            total = itens.stream()
+                    .map(i -> new BigDecimal(i.getQuantidade()).multiply(i.getPrecoProduto()))
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
+        } else {
+            total = BigDecimal.ZERO;
         }
     }
 
