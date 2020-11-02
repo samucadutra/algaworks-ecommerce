@@ -1,5 +1,6 @@
 package com.algaworks.ecommerce.model;
 
+import com.algaworks.ecommerce.dto.ProdutoDTO;
 import com.algaworks.ecommerce.listener.GenericoListener;
 import com.algaworks.ecommerce.listener.GerarNotaFiscalListener;
 import lombok.EqualsAndHashCode;
@@ -7,12 +8,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @Setter
+@NamedNativeQueries({
+        @NamedNativeQuery(name = "produto_loja.listar", query = "select id, nome, descricao, data_criacao, data_ultima_atualizacao, preco, foto from produto_loja", resultClass = Produto.class),
+        @NamedNativeQuery(name = "ecm_produto.listar", query = "select * from ecm_produto", resultSetMapping = "ecm_produto.Produto")
+})
+
 @SqlResultSetMappings({
         @SqlResultSetMapping(name = "produto_loja.Produto",
                 entities = {@EntityResult(entityClass = Produto.class)}),
@@ -30,7 +40,15 @@ import java.util.List;
                 @FieldResult(name = "dataCriacao", column = "prd_data_criacao"),
                 @FieldResult(name = "dataUltimaAtualizacao",
                         column = "prd_data_ultima_atualizacao")
-        }) })
+        }) }),
+        @SqlResultSetMapping(name = "ecm_produto.ProdutoDTO",
+        classes = {
+                @ConstructorResult(targetClass = ProdutoDTO.class,
+                        columns = {
+                                @ColumnResult(name = "prd_id", type = Integer.class),
+                                @ColumnResult(name = "prd_nome", type = String.class)
+                        })
+        })
 })
 @NamedQueries({
         @NamedQuery(name = "Produto.listar", query = "select p from Produto p"),
@@ -44,12 +62,16 @@ import java.util.List;
 public class Produto extends EntidadeBaseInteger{
 
 
+    @PastOrPresent
+    @NotNull
     @Column(name = "data_criacao", updatable = false, nullable = false)
     private LocalDateTime dataCriacao;
 
+    @PastOrPresent
     @Column(name = "data_ultima_atualizacao", insertable = false)
     private LocalDateTime dataUltimaAtualizacao;
 
+    @NotBlank
     @Column(length = 100, nullable = false)
     private String nome;
 
@@ -58,6 +80,7 @@ public class Produto extends EntidadeBaseInteger{
     private String descricao;
 
 //    @Column(precision = 10, scale = 2) // preco decimal(10,2)
+    @Positive
     private BigDecimal preco;
 
     @ManyToMany//(cascade = CascadeType.MERGE) //(cascade = CascadeType.PERSIST)
